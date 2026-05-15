@@ -1,0 +1,1177 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Boliginvestering Danmark</title>
+  <style>
+    :root{--bg:#08101a;--surface:#101c2b;--surface-soft:#152636;--card:#132238;--muted:#9ca3af;--text:#f8fafc;--accent:#1a6b5a;--accent-soft:rgba(26,107,90,0.18);--danger:#ef4444;--border:#243546;--shadow:0 20px 60px rgba(0,0,0,0.24)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:linear-gradient(180deg,#08101a,#0d1522);color:var(--text)}
+    button,input,select,textarea{font:inherit}
+    .container{max-width:1200px;margin:0 auto;padding:24px}
+    header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,0.06)}
+    .brand{display:flex;flex-direction:column;gap:6px}
+    .logo{font-size:1.8rem;font-weight:800;letter-spacing:0.02em}
+    .logo span{color:var(--accent)}
+    .subtitle{color:var(--muted);font-size:0.95rem}
+    .nav{display:flex;flex-wrap:wrap;gap:18px}
+    .nav a{color:var(--muted);text-decoration:none;font-weight:500;transition:color .2s}
+    .nav a:hover{color:#fff}
+    .header-actions{display:flex;flex-wrap:wrap;gap:10px}
+    .kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:20px}
+    .card{background:var(--surface);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
+    .card h3{margin:0;font-size:0.9rem;color:var(--muted);font-weight:500}
+    .card p{margin:10px 0 0;font-size:1.5rem;font-weight:700;color:#fff}
+    .grid{display:grid;grid-template-columns:1.45fr 1fr;gap:18px;margin-top:18px}
+    .panel{background:var(--surface);padding:22px;border-radius:16px;border:1px solid rgba(255,255,255,0.06);box-shadow:var(--shadow);animation:fadeInUp .4s ease both}
+    form .row{display:flex;gap:12px;flex-wrap:wrap}
+    label{font-size:0.9rem;color:var(--muted);display:block;margin-bottom:8px}
+    input,select,button,textarea{width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.05);color:#fff}
+    input:focus,select:focus,textarea:focus,button:focus{outline:none;box-shadow:0 0 0 3px rgba(26,107,90,0.18)}
+    .small{width:120px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:12px;border:none;cursor:pointer;transition:transform .18s,background .18s,box-shadow .18s;box-shadow:0 10px 24px rgba(0,0,0,0.14)}
+    .btn:hover{transform:translateY(-1px)}
+    .btn.primary{background:var(--accent);color:#fff}
+    .btn.ghost{background:rgba(255,255,255,0.06);color:#fff;border:1px solid rgba(255,255,255,0.12)}
+    .btn.icon{width:42px;height:42px;padding:0;font-size:1.05rem;background:rgba(255,255,255,0.08)}
+    .muted{color:var(--muted);font-size:0.92rem}
+    table{width:100%;border-collapse:collapse;margin-top:16px}
+    th,td{padding:14px 12px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.08)}
+    th{cursor:pointer;font-size:0.95rem;color:var(--muted);user-select:none;font-weight:600}
+    td{font-size:0.95rem;color:#e5e7eb}
+    tr{transition:background .18s}
+    tr:hover{background:rgba(255,255,255,0.04)}
+    .mini{font-size:0.84rem;color:var(--muted)}
+    .comp-box{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);padding:14px;border-radius:12px;color:#e5e7eb;font-size:0.92rem}
+    .strategy-box{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);padding:18px;border-radius:14px;color:#e5e7eb}
+    .meter{height:12px;background:rgba(255,255,255,0.08);border-radius:999px;overflow:hidden;margin-top:10px}
+    .meter-bar{height:100%;width:0;transition:width .3s ease}
+    .strategy-list{margin:10px 0 0;padding-left:18px}
+    .note-area{width:100%;min-height:90px;border-radius:14px;padding:14px;resize:vertical;font-size:0.95rem;line-height:1.5}
+    .status-badge{display:inline-block;padding:6px 12px;border-radius:999px;font-size:0.82rem;font-weight:700;color:white}
+    .status-ikke{background:#6b7280}
+    .status-interessant{background:#3b82f6}
+    .status-fremvisning{background:#f59e0b}
+    .status-budt{background:#f97316}
+    .status-afvist{background:#ef4444}
+    .status-koebt{background:#10b981}
+    .status-select{width:100%;border-radius:12px}
+    .saved-indicator{display:inline-flex;align-items:center;gap:4px;font-size:0.86rem;color:#34d399;margin-top:8px}
+    .summary-row{background:rgba(255,255,255,0.04)}
+    .compare-row td{padding-top:12px;padding-bottom:12px}
+    .compare-panel{background:rgba(26,107,90,0.14);border:1px solid rgba(26,107,90,0.24);border-radius:14px;padding:16px;margin-top:14px}
+    .compare-panel h4{margin:0 0 12px;font-size:1rem}
+    .estimate-box{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:16px;margin-top:14px;font-size:0.94rem}
+    .checklist-group{margin-top:18px;display:grid;grid-template-columns:1fr;gap:14px}
+    .checklist-item{display:grid;grid-template-columns:1fr;gap:10px;align-items:start}
+    .checklist-item textarea{width:100%;min-height:72px;border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:10px;background:rgba(255,255,255,0.04);color:#fff}
+    .risk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:12px}
+    .risk-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px}
+    .risk-card strong{display:block;margin-bottom:8px}
+    .risk-badge{display:inline-flex;padding:6px 12px;border-radius:999px;font-weight:700}
+    .risk-low{background:#16a34a;color:#e7f5ef}
+    .risk-medium{background:#f59e0b;color:#faf7eb}
+    .risk-high{background:#dc2626;color:#fff1f0}
+    .tooltip{margin-left:6px;color:var(--muted);cursor:help}
+    .empty-state{background:var(--surface);border:1px dashed rgba(255,255,255,0.16);padding:40px 24px;text-align:center;border-radius:16px;}
+    .empty-state h2{margin:16px 0 8px;color:#fff}
+    .empty-state p{color:var(--muted);max-width:520px;margin:0 auto}
+    .print-only{display:none}
+    .print-hide{display:block}
+    @media print{body:not(.printing) .print-hide{display:none!important}body.printing .print-only{display:block!important}body.printing .container{max-width:100%;padding:0;margin:0}body.printing header,body.printing .panel,body.printing .btn,body.printing input,body.printing select,body.printing textarea,body.printing .actions,body.printing .kpi,body.printing .compare-panel,body.printing .print-hide{display:none!important}body.printing .print-area{display:block!important;padding:24px;background:#fff;color:#0f172a}body.printing table{width:100%;border-collapse:collapse}body.printing th,body.printing td{border:1px solid #d1d5db;padding:8px}body.printing .checklist-item{display:block}body.printing .checklist-item textarea{border:1px solid #d1d5db}}
+    footer{margin-top:24px;text-align:center;color:var(--muted);font-size:0.95rem}
+    @media (max-width:980px){.grid{grid-template-columns:1fr}.kpi{grid-template-columns:1fr}.small{width:100%}.nav{justify-content:center}.header-actions{justify-content:center}}
+    @media (max-width:640px){header{flex-direction:column;align-items:flex-start}.nav{gap:12px}.btn{width:100%}.header-actions{width:100%;flex-direction:column}.panel{padding:18px}} 
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">BoligAnalyse<span>.dk</span></div>
+        <div class="subtitle">Professionel analyse af din boligliste</div>
+      </div>
+      <nav class="nav">
+        <a href="#overview">Oversigt</a>
+        <a href="#add">Tilføj bolig</a>
+        <a href="#stats">Statistik</a>
+        <a href="#settings">Indstillinger</a>
+      </nav>
+      <div class="header-actions">
+        <button id="share-list" class="btn ghost">Del liste</button>
+        <button id="export-json" class="btn ghost">Eksportér JSON</button>
+        <button id="import-json" class="btn ghost">Importér JSON</button>
+        <button id="export-pdf" class="btn primary print-hide">Gem som PDF</button>
+      </div>
+    </header>
+
+    <div class="kpi">
+      <div class="card"><h3>Antal boliger</h3><p id="kpi-count">0</p></div>
+      <div class="card"><h3>Samlet potentiel besparelse</h3><p id="kpi-savings">0 kr.</p></div>
+      <div class="card"><h3>Bedste investering</h3><p id="kpi-best">—</p></div>
+      <div class="card"><h3>Seneste status</h3><p id="autosave-note">Intet gemt endnu</p></div>
+    </div>
+    <div id="share-feedback" class="mini muted" style="margin-top:10px;display:none"></div>
+
+    <div class="grid" id="overview">
+      <div>
+        <div class="panel" id="add">
+          <h2 style="margin:0 0 8px">Tilføj bolig</h2>
+          <form id="prop-form">
+            <div style="display:flex;gap:12px;margin-bottom:10px;align-items:flex-start">
+              <input id="f-url" placeholder="Indsæt Boligsiden eller Boliga link her" style="flex:1;padding:8px;border-radius:8px;border:1px solid #e6edf3" />
+              <div style="display:flex;flex-direction:column;gap:8px;width:260px">
+                <div style="display:flex;gap:8px">
+                  <button type="button" id="parse-url" class="btn ghost">Parse link</button>
+                  <button type="button" id="open-link" class="btn" style="display:none" target="_blank">Åbn på Boligsiden</button>
+                </div>
+                <div style="background:#fbfcfd;padding:8px;border-radius:6px;border:1px solid #eef4f6">
+                  <h4 style="margin:0 0 6px">Hjælpe-guide</h4>
+                  <div class="mini muted">Udfyld disse felter manuelt fra annoncen:</div>
+                  <ol class="mini" style="padding-left:18px;margin-top:8px">
+                    <li>Pris (kr.)</li>
+                    <li>Areal (m²)</li>
+                    <li>Dage på markedet</li>
+                    <li>Antal prisnedsættelser</li>
+                    <li>Ejerudgift/md (kr.)</li>
+                    <li>Byggeår</li>
+                  </ol>
+                  <div class="mini muted" style="margin-top:6px">Parse udfylder adresse, postnr og by automatisk.</div>
+                </div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <div>
+                <label>🏠 Adresse</label>
+                <input id="f-adresse" required />
+              </div>
+              <div>
+                <label>📮 Postnummer</label>
+                <input id="f-postnr" required />
+              </div>
+              <div>
+                <label>📍 By</label>
+                <input id="f-by" required />
+              </div>
+              <div>
+                <label>🏘️ Type</label>
+                <select id="f-type"><option>villa</option><option>lejlighed</option><option>rækkehus</option></select>
+              </div>
+              <div>
+                <label>💰 Pris (kr.)</label>
+                <input id="f-pris" type="number" required />
+              </div>
+              <div>
+                <label>📏 Areal (m²)</label>
+                <input id="f-areal" type="number" required />
+              </div>
+              <div>
+                <label>⏱ Dage på markedet</label>
+                <input id="f-dage" type="number" value="0" />
+              </div>
+              <div>
+                <label>⬇️ Antal prisnedsættelser</label>
+                <input id="f-nego" type="number" value="0" />
+              </div>
+              <div>
+                <label>🏦 Ejerudgift/md (kr.)</label>
+                <input id="f-ejerudgift" type="number" value="0" />
+              </div>
+              <div>
+                <label>💼 Forventet månedlig leje (kr.)</label>
+                <input id="f-leje" type="number" value="0" />
+              </div>
+              <div>
+                <label>🏗 Byggeår</label>
+                <input id="f-byggeaar" type="number" value="1990" />
+              </div>
+              <div>
+                <label>⚡ Energimærke</label>
+                <select id="f-energi"><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option></select>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:12px;align-items:center">
+              <select id="market-cond" style="width:200px">
+                <option value="0.05">Marked: Købers marked</option>
+                <option value="0.02" selected>Marked: Neutralt</option>
+                <option value="0">Marked: Sælgers marked</option>
+              </select>
+              <button class="btn" type="submit">Tilføj bolig</button>
+              <button type="button" id="clear-all" class="btn ghost">Ryd alle</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="panel" style="margin-top:12px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <h3 style="margin:0">Sammenligning</h3>
+              <div class="muted">Klik på kolonneoverskrifter for sortering</div>
+            </div>
+            <button id="compare-now" class="btn print-hide" style="display:none">Sammenlign nu</button>
+          </div>
+          <table id="prop-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th data-key="adresse">Bolig</th>
+                <th data-key="pris">Pris</th>
+                <th data-key="m2pris">m²-pris</th>
+                <th data-key="score">Score <span class="tooltip" title="Samlet invisteringsscore baseret på pris, cashflow, energimærke og alder.">ⓘ</span></th>
+                <th data-key="neg">Forhandlingsrum <span class="tooltip" title="Estimeret procent af prisen som kan forhandles ned.">ⓘ</span></th>
+                <th>Status</th>
+                <th>Tilbud (3 niveauer)</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <div id="compare-panel" class="compare-panel print-hide" style="display:none"></div>
+          <div id="empty-state" class="empty-state" style="display:none"><div style="font-size:64px;line-height:1">🏠</div><h2>Tilføj din første bolig for at komme i gang</h2><p>Registrer boliger, få risikovurdering, break-even beregning og budhistorik samlet ét sted.</p></div>
+          <div id="printArea" class="print-area" style="display:none"></div>
+          <input type="file" id="import-file" accept="application/json" style="display:none" />
+        </div>
+      </div>
+
+      <div>
+        <div class="panel" id="stats">
+          <h3 style="margin-top:0">Prisudvikling 2015–2025 (landsplan)</h3>
+          <canvas id="priceChart" class="chart" width="420" height="180"></canvas>
+          <div style="display:flex;justify-content:space-between;margin-top:8px">
+            <div class="mini"><strong>Blå:</strong> Ejerlejligheder</div>
+            <div class="mini"><strong>Turkis:</strong> Villaer</div>
+          </div>
+        </div>
+
+        <div class="panel" id="settings" style="margin-top:12px">
+          <h3 style="margin-top:0">Detaljer</h3>
+          <div class="muted">Lokale gennemsnitspriser pr. postnummer (kr./m²)</div>
+          <pre id="postcode-list" class="mini" style="white-space:pre-wrap;margin-top:8px"></pre>
+        </div>
+      </div>
+    </div>
+
+    <footer>Designet for professionelle boliginvestorer — enkel, moderne og lokal sammenligning.</footer>
+  </div>
+
+  <script>
+    // --- Hardcoded lokale gennemsnitspriser (20 postnumre) kr/m² ---
+    const localAverages = {
+      "1050": 70000, "1060": 68000, "1100": 65000, "1200": 62000, "1260": 60000,
+      "2000": 35000, "2100": 42000, "2200": 30000, "2300": 32000, "2400": 25000,
+      "2450": 23000, "2600": 27000, "3000": 28000, "4000": 28000, "4200": 16000, "4300": 18000,
+      "4400": 12000, "4500": 11000, "4600": 24000, "4700": 18700, "4760": 13000,
+      "4800": 10000, "4900": 8000, "5000": 26000, "5200": 22000, "6000": 22000,
+      "6200": 14000, "6400": 16000, "6700": 16000, "7000": 18000, "7100": 22000,
+      "7400": 18000, "7500": 15000, "8000": 38000, "8200": 28000, "8600": 22000,
+      "8700": 20000, "9000": 20000, "9200": 16000
+    };
+
+    // --- Hardcoded sammenlignelige solgte handler (Næstved 2026) ---
+    const soldComparables = [
+      {adresse:'Mariedalsvej 12', by:'Næstved', pris:1725000, m2:129, m2pris:13373, solgt:'maj 2026', afslag:4.1, dage:48, type:'villa'},
+      {adresse:'Johanne Korchs Vej 73', by:'Næstved', pris:3550000, m2:165, m2pris:21515, solgt:'marts 2026', afslag:null, dage:null, type:'villa'},
+      {adresse:'Kindhestegade 24', by:'Næstved', pris:1600000, m2:81, m2pris:19753, solgt:'april 2026', afslag:null, dage:null, type:'lejlighed'},
+      {adresse:'Bogensevej 39', by:'Næstved', pris:1550000, m2:109, m2pris:14220, solgt:'marts 2026', afslag:null, dage:null, type:'villa'},
+      {adresse:'Tulipanvej 8', by:'Næstved', pris:2250000, m2:121, m2pris:18595, solgt:'april 2026', afslag:null, dage:null, type:'villa'}
+    ];
+
+    // --- App State ---
+    const statusOptions = [
+      {value:'Ikke vurderet', label:'Ikke vurderet', cls:'status-ikke'},
+      {value:'Interessant', label:'Interessant', cls:'status-interessant'},
+      {value:'Til fremvisning', label:'Til fremvisning', cls:'status-fremvisning'},
+      {value:'Budt', label:'Budt', cls:'status-budt'},
+      {value:'Afvist', label:'Afvist', cls:'status-afvist'},
+      {value:'Købt', label:'Købt', cls:'status-koebt'}
+    ];
+    const checklistGroups = [
+      {title:'Tag og ydervægge', items:[
+        {id:'tagtype', label:'Tagtype og synlige skader?'},
+        {id:'tagrender', label:'Tagrender og nedløbsrør OK?'},
+        {id:'revner', label:'Revner i facaden?'},
+        {id:'fugt_ydre', label:'Tegn på fugt udefra?'}
+      ]},
+      {title:'Kælder og fundament', items:[
+        {id:'fugt_lugt', label:'Lugter der af fugt eller mug?'},
+        {id:'vandmaerker', label:'Synlige vandmærker på vægge?'},
+        {id:'gulv', label:'Gulv jævnt uden sætningsskader?'}
+      ]},
+      {title:'El og varme', items:[
+        {id:'el_tjek', label:'Hvornår sidst el-tjek? (kræv dokumentation)'},
+        {id:'sikrings', label:'Sikringsskab og kabler alder?'},
+        {id:'varmekilde', label:'Varmekilde og alder på anlæg?'},
+        {id:'energidokument', label:'Energimærke dokumentation tilstede?'}
+      ]},
+      {title:'Køkken og bad', items:[
+        {id:'fugt_kob', label:'Tegn på fugt bag køkken og bad?'},
+        {id:'afloeb', label:'Afløb fungerer uden lugt?'},
+        {id:'vandrør', label:'Vandrør alder og materiale?'}
+      ]},
+      {title:'Generelt', items:[
+        {id:'naboforhold', label:'Naboforhold og støj?'},
+        {id:'parkering', label:'Parkeringsforhold?'},
+        {id:'internet', label:'Internet og mobilforbindelse?'},
+        {id:'servitutter', label:'Servitutter og lokalplan tjekket?'},
+        {id:'ejerforening', label:'Ejerforeningens regnskab set? (lejligheder)'},
+        {id:'rapporter', label:'Tilstandsrapport og elrapport gennemgået?'},
+        {id:'salgstid', label:'Hvornår skal sælger flytte?'},
+        {id:'inventar', label:'Hvad medfølger af hvidevarer og inventar?'},
+        {id:'tvister', label:'Er der verserende tvister på ejendommen?'},
+        {id:'forsikring', label:'Forsikringsforhold og ejerskifteforsikring?'}
+      ]}
+    ];
+    function defaultChecklist(){
+      const state = {};
+      checklistGroups.forEach(group => group.items.forEach(item => state[item.id] = {checked:false,note:''}));
+      return state;
+    }
+    function normalizeProperty(prop){
+      const base = {
+        status:'Ikke vurderet', note:'', compare:false,
+        loan:{udbetaling:5,rente:4,loebetid:30},
+        checklist:defaultChecklist(), checklistOpen:false,
+        altRent:0, bids:[], bidOpen:false
+      };
+      return {
+        ...base,
+        ...prop,
+        loan:{...base.loan, ...(prop.loan||{})},
+        checklist:{...defaultChecklist(), ...(prop.checklist||{})},
+        bids:Array.isArray(prop.bids)? prop.bids : [],
+        altRent: prop.altRent || 0,
+        bidOpen: prop.bidOpen || false
+      };
+    }
+    let properties = [];
+    let sortState = {key:'score',dir:-1};
+
+    // --- Utilities ---
+    const fmt = n => new Intl.NumberFormat('da-DK').format(Math.round(n));
+    const currency = n => fmt(n) + ' kr.';
+
+    function loadShareData(encoded){
+      try{
+        const decoded = atob(encoded);
+        const parsed = JSON.parse(decoded);
+        if(Array.isArray(parsed)){
+          properties = parsed.map(normalizeProperty);
+          save();
+          const el = document.getElementById('autosave-note'); el.style.display='inline-block'; el.textContent = 'Indlæst fra delt liste';
+          const feedback = document.getElementById('share-feedback'); feedback.style.display='block'; feedback.textContent = 'Liste indlæst fra URL';
+          return true;
+        }
+      }catch(e){ console.warn('URL-data kunne ikke indlæses', e); }
+      return false;
+    }
+
+    function load() {
+      try{
+        const urlData = new URLSearchParams(window.location.search).get('data');
+        if(urlData && loadShareData(urlData)) return;
+        const raw = localStorage.getItem('boligerData');
+        const ts = localStorage.getItem('boligerDataSavedAt');
+        if(raw){ properties = JSON.parse(raw).map(normalizeProperty); }
+        if(ts){ const el = document.getElementById('autosave-note'); el.style.display='inline-block'; el.textContent = 'Gemt automatisk — ' + new Date(ts).toLocaleString(); }
+      }catch(e){properties = []}
+    }
+    function save(){
+      localStorage.setItem('boligerData', JSON.stringify(properties));
+      const now = new Date();
+      localStorage.setItem('boligerDataSavedAt', now.toISOString());
+      const el = document.getElementById('autosave-note'); el.style.display='inline-block'; el.textContent = 'Gemt automatisk — ' + now.toLocaleTimeString();
+    }
+
+    function generateShareUrl(){
+      const encoded = btoa(JSON.stringify(properties));
+      const url = new URL(window.location.href);
+      url.searchParams.set('data', encoded);
+      return url.toString();
+    }
+
+    function copyShareUrl(){
+      const url = generateShareUrl();
+      navigator.clipboard.writeText(url).then(()=>{
+        const fb = document.getElementById('share-feedback');
+        fb.style.display = 'block';
+        fb.textContent = 'Delingslink kopieret til udklipsholder.';
+      }).catch(()=>{
+        alert('Kopi fejlede. Prøv igen eller brug eksportér JSON.');
+      });
+    }
+
+    function exportJson(){
+      const blob = new Blob([JSON.stringify(properties, null, 2)], {type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'boliger.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function importJsonText(){
+      const text = prompt('Indsæt JSON fra din backup:');
+      if(!text) return;
+      try{
+        const parsed = JSON.parse(text);
+        if(Array.isArray(parsed)){
+          properties = parsed.map(normalizeProperty);
+          save(); renderTable();
+          document.getElementById('share-feedback').style.display='block';
+          document.getElementById('share-feedback').textContent='JSON importeret.';
+        } else {
+          throw new Error('Ikke et array');
+        }
+      }catch(e){
+        alert('Ugyldig JSON. Tjek formatet og prøv igen.');
+      }
+    }
+
+    function importJsonFile(event){
+      const file = event.target.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try{
+          const parsed = JSON.parse(reader.result);
+          if(Array.isArray(parsed)){
+            properties = parsed.map(normalizeProperty);
+            save(); renderTable();
+            document.getElementById('share-feedback').style.display='block';
+            document.getElementById('share-feedback').textContent='JSON-fil indlæst.';
+          } else {
+            throw new Error('Ugyldigt format');
+          }
+        }catch(e){
+          alert('Kunne ikke indlæse filen. Tjek at det er gyldig JSON.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // --- Calculations ---
+    function computeFor(prop, marketCond=0.02){
+      const price = Number(prop.pris);
+      const dage = Number(prop.dage)||0;
+      const reductions = Number(prop.nego)||0;
+      const daysFactor = Math.min(dage/365*0.06, 0.18); // longer => more discount
+      const reductionFactor = 0.01 * reductions;
+      const market = Number(marketCond);
+      const discount = Math.min(daysFactor + reductionFactor + market, 0.30);
+      const aggressive = Math.round(price*(1-discount));
+      const marketOffer = Math.round(price*(1-discount*0.6));
+      const conservative = Math.round(price*(1-discount*0.3));
+
+      // m2 price
+      const m2 = prop.areal>0? price/prop.areal: price;
+
+      // negotiation room
+      const negRoom = (price - aggressive)/price;
+
+      // investment score 0-100
+      const postnr = String(prop.postnr);
+      const localAvg = localAverages[postnr] || 30000;
+      const priceRatio = localAvg / m2; // >1 => cheaper than avg -> good
+      const priceScore = Math.max(0, Math.min(50, (priceRatio)*50));
+
+      const monthlyCashflow = Number(prop.leje) - Number(prop.ejerudgift);
+      const cashflowScore = Math.max(0, Math.min(25, (monthlyCashflow>0? (monthlyCashflow/Math.max(1,prop.leje))*25 : 0)));
+
+      const energyMap = {A:15,B:12,C:9,D:6,E:3,F:0};
+      const energyScore = energyMap[prop.energi] || 0;
+
+      const age = (new Date()).getFullYear() - (prop.byggeaar||1990);
+      const ageScore = Math.max(0, Math.min(10, (1 - Math.min(age,100)/100)*10));
+
+      const totalScore = Math.round(priceScore + cashflowScore + energyScore + ageScore);
+
+      return {aggressive,marketOffer,conservative,m2:Math.round(m2),negRoom,totalScore,localAvg,monthlyCashflow};
+    }
+
+    // --- Generate negotiation strategy ---
+    function computeNegotiationStrategy(prop, calc){
+      const today = new Date();
+      const month = today.getMonth()+1;
+      const q4 = (month>=10 && month<=12);
+      const dage = Number(prop.dage)||0;
+      const reductions = Number(prop.nego)||0;
+      const localAvg = calc.localAvg || 30000;
+      const m2pris = calc.m2 || 0;
+      const priceGap = Math.round(((m2pris / localAvg) - 1) * 100);
+      const listingDate = new Date(today.getTime() - dage * 24 * 60 * 60 * 1000);
+      const listingString = `${listingDate.getDate()}/${listingDate.getMonth()+1}/${listingDate.getFullYear()}`;
+
+      // Components: days, reductions, m2 gap, season
+      const daysScore = Math.max(0, Math.min(35, (dage/120)*35));
+      const redScore = Math.max(0, Math.min(30, reductions*10));
+      const priceScore = Math.max(0, Math.min(25, (priceGap/50)*25));
+      const seasonScore = q4?10:0;
+      let strength = Math.round(daysScore + redScore + priceScore + seasonScore);
+      strength = Math.max(0, Math.min(100, strength));
+
+      const color = strength < 30 ? 'red' : (strength < 60 ? 'orange' : 'green');
+      const percText = priceGap > 0 ? `${priceGap}% højere` : `${Math.abs(priceGap)}% lavere`;
+      const offerText = currency(calc.conservative);
+
+      // Opening sentences
+      const sentences = [];
+      if(dage > 90) sentences.push(`Jeg kan se boligen har ligget ${dage} dage på markedet siden ${listingString} - hvad er baggrunden for det?`);
+      if(reductions >= 2) sentences.push(`Prisen er allerede faldet ${reductions} gange - jeg vil gerne forstå hvad der er sælgers realistiske forventning nu?`);
+      if(reductions === 1) sentences.push(`Der har været ét prisfald - er der rum for yderligere justering til ${offerText}?`);
+      if(m2pris > localAvg * 1.2) sentences.push(`Sammenlignet med området på ${prop.postnr} hvor gennemsnittet er ${fmt(localAvg)} kr/m², ligger denne bolig ${priceGap}% højere - hvad begrunder den forskel?`);
+      if(Number(prop.byggeaar) < 1970) sentences.push(`Huset er fra ${prop.byggeaar} - jeg vil gerne have en tilstandsrapport gennemgået inden vi taler pris.`);
+      if(dage < 20 && reductions === 0) sentences.push('Boligen er ny på markedet - vi er interesserede men vil gerne forstå prissætningen bedre.');
+      if(sentences.length === 0) sentences.push(`Jeg kan se boligen til ${fmt(prop.pris)} kr. og vil gerne høre om sælgers situation, så vi kan ramme et realistisk første bud.`);
+      if(sentences.length > 3) sentences.length = 3;
+
+      // Tactical advice
+      const tactical = [];
+      if(prop.type === 'villa' && Number(prop.byggeaar) < 1980){
+        tactical.push('Tjek el, tag og kloak som specifikke forhandlingspunkter for ældre villaer.');
+      }
+      if(prop.type === 'lejlighed'){
+        tactical.push('Spørg ind til ejerforeningens økonomi og kommende vedligehold som forhandlingskort.');
+      }
+      if(strength > 60){
+        tactical.push('Du har en stærk position - start 10-12% under udbudspris.');
+      }
+      if(strength < 30){
+        tactical.push('Markedet er varmt her - max 3-5% under, fokuser på vilkår i stedet.');
+      }
+      tactical.push('Forhandl også overtagelsesdato, hvidevarer og istandsættelse.');
+      tactical.push('Undgå at vise for meget entusiasme tidligt; få klarhed over sælgers motivation.');
+      tactical.push('Brug eventuelt et håndværkertilbud som forhandlingskort, især hvis ejendommen har ældre installationer.');
+
+      // First contact script
+      let script = `Hej, jeg skriver angående ${prop.adresse}. Jeg kan se den har ligget ${dage} dage på markedet og har en m²-pris på ${fmt(m2pris)} kr/m² sammenlignet med området på ${prop.postnr} (${fmt(localAvg)} kr/m²). Vi ser et konservativt første bud på ${offerText}.`;
+      if(['D','E','F'].includes(prop.energi)){
+        script += ` Energimærke ${prop.energi} betyder estimerede renoveringsomkostninger - det skal afspejles i prisen.`;
+      }
+      script += ' Er boligen stadig aktuel, og hvordan ser sælgers tidsplan ud?';
+
+      return {strength, color, sentences, tactical, script};
+    }
+
+    function statusClass(status){
+      const found = statusOptions.find(o => o.value === status);
+      return found? found.cls : 'status-ikke';
+    }
+
+    function computeLoan(price, loan){
+      const down = Math.max(0, Math.min(100, Number(loan.udbetaling)||0)) / 100;
+      const rate = Math.max(0, Number(loan.rente)||0) / 100;
+      const years = Math.max(1, Number(loan.loebetid)||1);
+      const principal = price * (1 - down);
+      const n = years * 12;
+      const monthlyRate = rate / 12;
+      const monthly = monthlyRate === 0 ? principal/n : principal * monthlyRate / (1 - Math.pow(1+monthlyRate, -n));
+      const total = monthly * n;
+      return {monthly, total, interest: total - principal, perDay: monthly / 30, principal};
+    }
+
+    function computeRiskAnalysis(prop, calc){
+      const dage = Number(prop.dage)||0;
+      const reductions = Number(prop.nego)||0;
+      let marketRisk = 'Blandet marked';
+      if(dage < 30 && reductions === 0) marketRisk = 'Sælgers marked';
+      if(dage > 90 && reductions > 0) marketRisk = 'Købers marked';
+      const priceRatio = calc.m2 / calc.localAvg;
+      let priceRisk = 'Neutral pris';
+      if(priceRatio < 0.9) priceRisk = 'Billig i området';
+      if(priceRatio > 1.2) priceRisk = 'Dyr i området';
+      let score = 50;
+      if(marketRisk === 'Købers marked') score += 15;
+      if(marketRisk === 'Sælgers marked') score -= 10;
+      if(priceRisk === 'Billig i området') score -= 10;
+      if(priceRisk === 'Dyr i området') score += 15;
+      if(Number(prop.byggeaar) < 1980) score += 10;
+      if(['E','F'].includes(prop.energi)) score += 10;
+      score = Math.max(0, Math.min(100, score));
+      const level = score < 35 ? 'Lav' : score < 65 ? 'Middel' : 'Høj';
+      const levelClass = score < 35 ? 'risk-low' : score < 65 ? 'risk-medium' : 'risk-high';
+      const sensitivity = [3,4,5,6].map(rate=>{
+        const loan = {...prop.loan, rente: rate};
+        return {rate, monthly: Math.round(computeLoan(prop.pris, loan).monthly)};
+      });
+      return {marketRisk, priceRisk, score, level, levelClass, sensitivity};
+    }
+
+    function remainingBalance(principal, monthlyRate, n, paid){
+      if(monthlyRate === 0) return principal * Math.max(0, 1 - paid / n);
+      const monthly = principal * monthlyRate / (1 - Math.pow(1+monthlyRate, -n));
+      return principal * Math.pow(1+monthlyRate, paid) - monthly * (Math.pow(1+monthlyRate, paid) - 1) / monthlyRate;
+    }
+
+    function computeBreakEven(prop, loan, altRent){
+      const price = Number(prop.pris);
+      const rate = Math.max(0, Number(loan.rente)||0) / 100;
+      const years = Math.max(1, Number(loan.loebetid)||1);
+      const n = years * 12;
+      const monthlyRate = rate / 12;
+      const principal = price * (1 - Math.max(0, Math.min(100, Number(loan.udbetaling)||0))/100);
+      const monthly = computeLoan(price, loan).monthly;
+      const values = [];
+      let savings = 0;
+      for(let year=1; year<=30; year++){
+        const paid = Math.min(year*12, n);
+        const balance = remainingBalance(principal, monthlyRate, n, paid);
+        const equity = Math.max(0, price - balance);
+        const annualSavings = Math.max(0, (altRent - monthly) * 12);
+        savings += annualSavings;
+        const buyValue = equity + savings;
+        const rentValue = altRent * 12 * year;
+        values.push({year, buyValue, rentValue});
+      }
+      const breakeven = values.find(v=>v.buyValue >= v.rentValue);
+      return {values, breakeven, monthly, rate};
+    }
+
+    function drawBreakEvenGraph(canvas, prop, loan, altRent){
+      const ctx = canvas.getContext('2d');
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * 2;
+      canvas.height = rect.height * 2;
+      ctx.setTransform(1,0,0,1,0,0);
+      ctx.scale(2,2);
+      const {values} = computeBreakEven(prop, loan, altRent);
+      const years = values.map(v=>v.year);
+      const maxVal = Math.max(...values.map(v=>v.buyValue), ...values.map(v=>v.rentValue), 1);
+      const padding = 32;
+      const w = rect.width - padding*2;
+      const h = rect.height - padding*2;
+      ctx.clearRect(0,0,rect.width,rect.height);
+      ctx.strokeStyle = 'rgba(255,255,255,0.16)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(padding, padding); ctx.lineTo(padding, padding+h); ctx.lineTo(padding+w, padding+h); ctx.stroke();
+      function mapX(i){ return padding + (i/(years.length-1))*w; }
+      function mapY(value){ return padding + h - (value/maxVal)*h; }
+      const plot = (color, valuesKey)=>{
+        ctx.strokeStyle = color; ctx.lineWidth = 2.5; ctx.beginPath();
+        values.forEach((v,i)=>{
+          const x = mapX(i); const y = mapY(v[valuesKey]);
+          if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+        });
+        ctx.stroke();
+      };
+      plot('#1a6b5a', 'buyValue');
+      plot('#38bdf8', 'rentValue');
+      ctx.fillStyle = '#fff'; ctx.font='11px sans-serif';
+      ctx.fillText('Køb', padding + 6, padding + 14);
+      ctx.fillText('Lej', padding + 6, padding + 28);
+      ctx.fillStyle = '#fff';
+      values.forEach((v,i)=>{ if(i%5===0){ ctx.fillText(`${v.year}`, mapX(i)-8, padding+h+18); }});
+      ctx.fillStyle = 'rgba(255,255,255,0.6)';
+      const step = Math.ceil(maxVal/4);
+      for(let line=0; line<=4; line++){ const y = padding + h - (line/4)*h; ctx.fillText(fmt(line*step), 4, y+4); }
+    }
+
+    function computeEstimate(prop){
+      const price = Number(prop.pris) || 0;
+      const growth = prop.type === 'lejlighed' ? 0.07 : 0.055;
+      return [3,5,10].map(years => {
+        const base = price * Math.pow(1+growth, years);
+        const opt = price * Math.pow(1+growth+0.02, years);
+        const pess = price * Math.pow(1+growth-0.02, years);
+        return {
+          years,
+          base: Math.round(base),
+          opt: Math.round(opt),
+          pess: Math.round(pess),
+          gain: Math.round(base - price),
+          gainPct: Math.round(((base/price)-1)*100)
+        };
+      });
+    }
+
+    function debounce(fn, delay){
+      let timer;
+      return (...args)=>{ clearTimeout(timer); timer = setTimeout(()=>fn(...args), delay); };
+    }
+
+    function updateCompareButton(){
+      const selected = properties.filter(p => p.compare);
+      const btn = document.getElementById('compare-now');
+      btn.style.display = selected.length === 2 ? 'inline-flex' : 'none';
+      if(selected.length === 2){ btn.textContent = `Sammenlign ${selected[0].adresse} vs ${selected[1].adresse}`; }
+    }
+
+    function buildComparePanel(){
+      const selected = properties.filter(p => p.compare);
+      const panel = document.getElementById('compare-panel');
+      if(selected.length !== 2){ panel.style.display='none'; return; }
+      const calc0 = computeFor(selected[0], selected[0].marketCond||0.02);
+      const calc1 = computeFor(selected[1], selected[1].marketCond||0.02);
+      const loan0 = computeLoan(selected[0].pris, selected[0].loan);
+      const loan1 = computeLoan(selected[1].pris, selected[1].loan);
+      const params = [
+        {label:'Pris', a:selected[0].pris, b:selected[1].pris, better:'min'},
+        {label:'m²-pris', a:calc0.m2, b:calc1.m2, better:'min'},
+        {label:'Score', a:calc0.totalScore, b:calc1.totalScore, better:'max'},
+        {label:'Forhandlingsrum', a:calc0.negRoom, b:calc1.negRoom, better:'max'},
+        {label:'Månedlig ydelse', a:loan0.monthly, b:loan1.monthly, better:'min'},
+        {label:'Cashflow', a:(selected[0].leje - selected[0].ejerudgift), b:(selected[1].leje - selected[1].ejerudgift), better:'max'},
+        {label:'Energimærke', a:selected[0].energi, b:selected[1].energi, better:'min'},
+        {label:'Byggeår', a:selected[0].byggeaar, b:selected[1].byggeaar, better:'max'}
+      ];
+      const rows = params.map(param => {
+        let aClass='', bClass='';
+        const a = param.a; const b = param.b;
+        if(param.label==='Energimærke'){
+          const order = {A:6,B:5,C:4,D:3,E:2,F:1};
+          aClass = order[a] > order[b] ? 'status-koebt' : order[a] < order[b] ? 'status-ikke' : '';
+          bClass = order[b] > order[a] ? 'status-koebt' : order[b] < order[a] ? 'status-ikke' : '';
+        } else if(a !== b){
+          if(param.better==='max'){ aClass = a>b ? 'status-koebt' : 'status-ikke'; bClass = b>a ? 'status-koebt' : 'status-ikke'; }
+          else { aClass = a<b ? 'status-koebt' : 'status-ikke'; bClass = b<a ? 'status-koebt' : 'status-ikke'; }
+        }
+        return `<tr><td>${param.label}</td><td class="${aClass}">${param.label==='Pris' || param.label==='m²-pris' || param.label==='Månedlig ydelse' || param.label==='Cashflow'? currency(a):a}</td><td class="${bClass}">${param.label==='Pris' || param.label==='m²-pris' || param.label==='Månedlig ydelse' || param.label==='Cashflow'? currency(b):b}</td></tr>`;
+      }).join('');
+      panel.innerHTML = `<h4>Sammenligning</h4><div style="overflow:auto"><table style="width:100%;border-collapse:collapse"><thead><tr><th></th><th>${selected[0].adresse}</th><th>${selected[1].adresse}</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+      panel.style.display='block';
+    }
+
+    function buildPrintArea(){
+      const area = document.getElementById('printArea');
+      const now = new Date();
+      const lines = properties.map(p => {
+        const c = computeFor(p,p.marketCond||0.02);
+        const strat = computeNegotiationStrategy(p,c);
+        const risk = computeRiskAnalysis(p,c);
+        const bidsHtml = p.bids && p.bids.length ? p.bids.map(bid => `<li>${bid.date || 'Ukendt dato'} — ${currency(bid.amount)} — ${bid.response}${bid.counter?` (modbud ${currency(bid.counter)})`:''}${bid.note?` • ${bid.note}`:''}</li>`).join('') : '<li>Ingen bud registreret.</li>';
+        return `<section style="margin-bottom:24px"><h2>${p.adresse} (${p.postnr} ${p.by})</h2><div style="margin-bottom:10px">Eksportdato: ${now.toLocaleDateString()}</div><table style="width:100%;margin-top:10px;border-collapse:collapse"><tr><th style="border:1px solid #d1d5db;padding:8px">Pris</th><th style="border:1px solid #d1d5db;padding:8px">m²-pris</th><th style="border:1px solid #d1d5db;padding:8px">Score</th><th style="border:1px solid #d1d5db;padding:8px">Tilbud</th></tr><tr><td style="border:1px solid #d1d5db;padding:8px">${currency(p.pris)}</td><td style="border:1px solid #d1d5db;padding:8px">${fmt(c.m2)} kr.</td><td style="border:1px solid #d1d5db;padding:8px">${c.totalScore}</td><td style="border:1px solid #d1d5db;padding:8px">${currency(c.conservative)} / ${currency(c.marketOffer)} / ${currency(c.aggressive)}</td></tr></table><div style="margin-top:12px"><strong>Forhandlingsstrategi</strong><ul>${strat.sentences.map(s=>`<li>${s}</li>`).join('')}<li>${strat.script}</li></ul></div><div style="margin-top:12px"><strong>Risikoanalyse</strong><p>Markedsrisiko: ${risk.marketRisk} · Prisrisiko: ${risk.priceRisk} · Risikoscore: ${risk.level}</p></div><div style="margin-top:12px"><strong>Budhistorik</strong><ul>${bidsHtml}</ul></div></section>`;
+      }).join('');
+      area.innerHTML = `<div><h1>Boligeksport</h1><div>Dato: ${now.toLocaleDateString()} ${now.toLocaleTimeString()}</div>${lines}</div>`;
+      area.style.display='block';
+      document.body.classList.add('printing');
+      window.print();
+      document.body.classList.remove('printing');
+      area.style.display='none';
+    }
+
+    function checklistHtml(p, idx){
+      const groups = checklistGroups.map(group => {
+        const items = group.items.map(item => {
+          const state = p.checklist[item.id] || {checked:false,note:''};
+          return `<div class="checklist-item"><label><input type="checkbox" class="checklist-checkbox" data-idx="${idx}" data-id="${item.id}" ${state.checked? 'checked':''}/> ${item.label}</label><textarea class="checklist-note" data-idx="${idx}" data-id="${item.id}" placeholder="Noter...">${state.note || ''}</textarea></div>`;
+        }).join('');
+        return `<div><strong>${group.title}</strong>${items}</div>`;
+      }).join('');
+      return `<div class="checklist-group">${groups}</div>`;
+    }
+
+    // --- Rendering ---
+    const tbody = document.querySelector('#prop-table tbody');
+    function renderTable(){
+      tbody.innerHTML = '';
+      const rows = properties.map((p,idx)=>({p,idx,calc:computeFor(p, p.marketCond||0.02)}));
+      rows.sort((a,b)=>{
+        const k = sortState.key;
+        let va = k==='m2pris'? a.calc.m2 : (k==='pris'? a.p.pris : (k==='neg'? a.calc.negRoom : (k==='score'? a.calc.totalScore : a.p[k] || '')));
+        let vb = k==='m2pris'? b.calc.m2 : (k==='pris'? b.p.pris : (k==='neg'? b.calc.negRoom : (k==='score'? b.calc.totalScore : b.p[k] || '')));
+        if(typeof va==='string') va = va.toLowerCase(); if(typeof vb==='string') vb = vb.toLowerCase();
+        if(va<vb) return -1*sortState.dir; if(va>vb) return 1*sortState.dir; return 0;
+      });
+
+      for(const r of rows){const p=r.p; const c=r.calc; const statusCls = statusClass(p.status);
+        const statusOptionsHtml = statusOptions.map(o => `<option value="${o.value}" ${p.status===o.value?'selected':''}>${o.label}</option>`).join('');
+        const risk = computeRiskAnalysis(p, c);
+        const loan = p.loan || {udbetaling:5,rente:4,loebetid:30};
+        const loanCalc = computeLoan(p.pris, loan);
+        const breakInfo = computeBreakEven(p, loan, p.altRent || 0);
+        const rentIncome = Math.round(p.leje * 12);
+        const vacancy = Math.round(rentIncome * 0.04);
+        const maintenance = Math.round(p.pris * 0.01);
+        const ownerCost = Math.round(p.ejerudgift * 12);
+        const loanCostAnnual = Math.round(loanCalc.monthly * 12);
+        const netCashflow = Math.round(rentIncome - vacancy - maintenance - ownerCost - loanCostAnnual);
+        const grossYield = p.pris ? Math.round((rentIncome / p.pris) * 100) : 0;
+        const downPayment = Math.round(p.pris * Math.max(0, Math.min(100, loan.udbetaling||0)) / 100);
+        const netYield = downPayment ? Math.round((netCashflow / downPayment) * 100) : 0;
+        const cashflowClass = netCashflow >= 0 ? 'status-koebt' : 'status-afvist';
+        const firstBid = p.bids && p.bids.length ? p.bids[0] : null;
+        const acceptedBid = p.bids && p.bids.length ? p.bids.find(b=>b.response==='Accepteret') : null;
+        let negotiationDelta = 'Ingen accepteret pris endnu.';
+        if(acceptedBid && firstBid && Number(firstBid.amount)){
+          const diff = Number(firstBid.amount) - Number(acceptedBid.amount);
+          if(diff > 0) negotiationDelta = `Forhandlet ${currency(diff)} ned fra første bud til accepteret pris`;
+          else if(diff < 0) negotiationDelta = `Accepteret pris ${currency(Math.abs(diff))} højere end første bud`;
+          else negotiationDelta = 'Accepteret pris er samme som første bud.';
+        }
+        const bidTimelineHtml = p.bids && p.bids.length ? p.bids.map(bid => `<div style="padding:10px 0;border-top:1px solid rgba(255,255,255,0.08);"><strong>${bid.amount?currency(bid.amount):'Udfyldt bud'}</strong> ${bid.date||''} · ${bid.response||'Afventer'}${bid.counter?` · Modbud: ${currency(bid.counter)}`:''}<div class="mini">${bid.note||''}</div></div>`).join('') : '<div class="mini">Ingen bud registreret endnu.</div>';
+        const bidFormDisplay = p.bidOpen ? 'grid' : 'none';
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td><input type="checkbox" class="compare-toggle" data-idx="${r.idx}" ${p.compare?'checked':''} /></td>
+          <td><div style="font-weight:600">${p.adresse}</div><div class="mini">${p.postnr} ${p.by} · ${p.type}</div></td>
+          <td>${currency(p.pris)}</td>
+          <td>${fmt(c.m2)} kr.</td>
+          <td>${c.totalScore} <span class="tooltip" title="Investeringsscore baseret på pris, energimærke, alder og cashflow.">ⓘ</span></td>
+          <td>${Math.round(c.negRoom*100)}% <span class="tooltip" title="Estimeret procentdel af prisen hvor der er forhandlingsrum.">ⓘ</span></td>
+          <td><div class="status-badge ${statusCls}">${p.status}</div><select class="status-select" data-idx="${r.idx}">${statusOptionsHtml}</select></td>
+          <td><div class="mini">K: ${currency(c.conservative)} · M: ${currency(c.marketOffer)} · A: ${currency(c.aggressive)}</div></td>
+          <td class="actions"><button data-idx="${r.idx}" class="btn ghost edit">Redigér</button><button data-idx="${r.idx}" class="btn ghost strategy" data-action="strategy">Strategi</button><button data-idx="${r.idx}" class="btn ghost" data-action="checklist">Tjekliste</button><button data-idx="${r.idx}" class="btn icon" data-action="delete" aria-label="Slet bolig">🗑</button></td>`;
+        tbody.appendChild(tr);
+
+        const propM2 = c.m2;
+        const comps = soldComparables.filter(s=>s.type===p.type).map(s=>({s, diff:Math.abs(s.m2pris - propM2)})).sort((a,b)=>a.diff-b.diff).slice(0,2);
+        if(comps.length){
+          const compRow = document.createElement('tr');
+          compRow.className = 'comp-row';
+          compRow.innerHTML = `<td colspan="9"><div class="comp-box"><strong>Sammenlignelige handler i området:</strong><div style="margin-top:6px">${comps.map(item=>`${item.s.adresse}, ${item.s.m2} m² — ${fmt(item.s.pris)} kr. (${fmt(item.s.m2pris)} kr/m²) — solgt ${item.s.solgt}${item.s.afslag?` — ${item.s.afslag}% afslag`:''}${item.s.dage?` — ${item.s.dage} dage`:''}`).join('<br>')}</div></div></td>`;
+          tbody.appendChild(compRow);
+        }
+
+        const stratRow = document.createElement('tr');
+        stratRow.className = 'strategy-row';
+        stratRow.style.display = 'none';
+        stratRow.innerHTML = `<td colspan="9"><div class="strategy-box" id="strategy-${r.idx}"></div></td>`;
+        tbody.appendChild(stratRow);
+
+        const noteRow = document.createElement('tr');
+        noteRow.innerHTML = `<td colspan="9"><textarea class="note-area" data-idx="${r.idx}" placeholder="Dine noter om denne bolig...">${p.note||''}</textarea><div class="saved-indicator" data-note-saved="${r.idx}" style="display:${p.note?'inline-flex':'none'}">✓ Gemt</div></td>`;
+        tbody.appendChild(noteRow);
+
+        const loanRow = document.createElement('tr');
+        loanRow.innerHTML = `<td colspan="9"><div class="estimate-box"><strong>Låneberegner</strong><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:8px"><label>Udbetaling (%)<input type="number" class="loan-input" data-idx="${r.idx}" data-field="udbetaling" value="${loan.udbetaling}" min="0" max="100" /></label><label>Rente (%)<input type="number" class="loan-input" data-idx="${r.idx}" data-field="rente" value="${loan.rente}" step="0.1" /></label><label>Løbetid (år)<input type="number" class="loan-input" data-idx="${r.idx}" data-field="loebetid" value="${loan.loebetid}" min="1" /></label></div><div style="margin-top:10px">Månedlig ydelse: ${currency(loanCalc.monthly)} · Samlet betaling: ${currency(loanCalc.total)} · Renteomkostninger: ${currency(loanCalc.interest)} · Koster pr. dag: ${currency(loanCalc.perDay)}</div></div></td>`;
+        tbody.appendChild(loanRow);
+
+        const breakRow = document.createElement('tr');
+        breakRow.innerHTML = `<td colspan="9"><div class="estimate-box"><strong>Break-even beregner</strong><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px"><label>Alternativ månedlig husleje<input type="number" class="break-input" data-idx="${r.idx}" value="${p.altRent||0}" min="0" /></label><div style="padding:14px;border-radius:12px;background:rgba(255,255,255,0.04);">${p.altRent? `Forventet break-even: <strong>${breakInfo.breakeven ? breakInfo.breakeven.year+' år' : 'Ingen indenfor 30 år'}</strong>` : 'Indtast alternativ husleje for break-even beregning'}</div></div><div style="margin-top:12px">Aktuel låneydelse: ${currency(breakInfo.monthly)} ved ${breakInfo.rate}% rente</div><div style="margin-top:14px"><canvas class="break-canvas" id="break-canvas-${r.idx}" style="width:100%;height:220px;border-radius:12px;background:rgba(255,255,255,0.04)"></canvas></div></div></td>`;
+        tbody.appendChild(breakRow);
+
+        const estimateHtml = computeEstimate(p).map(est => `<div style="margin-top:6px">${est.years} år: ${currency(est.base)} (${fmt(est.gain)} kr., ${est.gainPct}%) - optimistisk ${currency(est.opt)}, pessimistisk ${currency(est.pess)}</div>`).join('');
+        const estimateRow = document.createElement('tr');
+        estimateRow.innerHTML = `<td colspan="9"><div class="estimate-box"><strong>Prisudvikling-estimat</strong>${estimateHtml}</div></td>`;
+        tbody.appendChild(estimateRow);
+
+        const riskRow = document.createElement('tr');
+        riskRow.innerHTML = `<td colspan="9"><div class="estimate-box"><strong>Risikoanalyse</strong><div class="risk-grid" style="margin-top:12px"><div class="risk-card"><strong>Markedsrisiko</strong><div>${risk.marketRisk}</div></div><div class="risk-card"><strong>Prisrisiko</strong><div>${risk.priceRisk}</div></div><div class="risk-card"><strong>Risikoscore</strong><div class="risk-badge ${risk.levelClass}">${risk.level}</div></div><div class="risk-card"><strong>Rentesensitivitet</strong><div class="mini">${risk.sensitivity.map(s=>`${s.rate}%: ${currency(s.monthly)}`).join('<br>')}</div></div></div></div></td>`;
+        tbody.appendChild(riskRow);
+
+        if(p.leje > 0){
+          const rentRow = document.createElement('tr');
+          rentRow.innerHTML = `<td colspan="9"><div class="estimate-box"><strong>Udlejningsregnskab</strong><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:12px"><div>Lejeindtægt pr. år<br><strong>${currency(rentIncome)}</strong></div><div>Tomgang (4%)<br><strong>${currency(vacancy)}</strong></div><div>Vedligehold (1%)<br><strong>${currency(maintenance)}</strong></div><div>Ejerudgift pr. år<br><strong>${currency(ownerCost)}</strong></div><div>Lånebetaling pr. år<br><strong>${currency(loanCostAnnual)}</strong></div><div>Netto cashflow pr. år<br><strong class="${cashflowClass}">${currency(netCashflow)}</strong></div><div>Bruttoafkast<br><strong>${grossYield}%</strong></div><div>Nettoafkast<br><strong>${netYield}%</strong></div></div></div></td>`;
+          tbody.appendChild(rentRow);
+        }
+
+        const bidRow = document.createElement('tr');
+        bidRow.innerHTML = `<td colspan="9"><div class="estimate-box"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><strong>Budhistorik</strong><button class="btn ghost icon" type="button" data-action="toggleBid" data-idx="${r.idx}" aria-label="Registrér bud">➕</button></div><div class="mini" style="margin-top:10px">${negotiationDelta}</div><div class="bid-form" style="display:${bidFormDisplay};gap:10px;margin-top:14px"><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"><label>Budbeløb<input type="number" class="bid-amount" data-idx="${r.idx}" /></label><label>Dato<input type="date" class="bid-date" data-idx="${r.idx}" value="${new Date().toISOString().split('T')[0]}" /></label><label>Sælgers svar<select class="bid-response" data-idx="${r.idx}"><option>Afventer</option><option>Accepteret</option><option>Afvist</option><option>Modbudt</option></select></label></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px"><label>Modbudsbeløb<input type="number" class="bid-counter" data-idx="${r.idx}" /></label><label>Noter<textarea class="bid-note" data-idx="${r.idx}" rows="2" placeholder="Noter..."></textarea></label></div><button class="btn ghost" type="button" data-action="addBid" data-idx="${r.idx}">Registrér bud</button></div><div style="margin-top:14px">${bidTimelineHtml}</div></div></td>`;
+        tbody.appendChild(bidRow);
+
+        const checklistRow = document.createElement('tr');
+        checklistRow.className = 'checklist-row';
+        checklistRow.style.display = p.checklistOpen ? '' : 'none';
+        checklistRow.innerHTML = `<td colspan="9"><div class="estimate-box"><strong>Fremvisnings-tjekliste</strong>${checklistHtml(p, r.idx)}</div></td>`;
+        tbody.appendChild(checklistRow);
+      }
+
+      // KPIs
+      document.getElementById('kpi-count').textContent = properties.length;
+      const savings = properties.reduce((s,p)=>{const c=computeFor(p,p.marketCond||0.02);return s + (p.pris - c.aggressive)},0);
+      document.getElementById('kpi-savings').textContent = currency(savings);
+      const best = properties.map(p=>({p,score:computeFor(p,p.marketCond||0.02).totalScore})).sort((a,b)=>b.score-a.score)[0];
+      document.getElementById('kpi-best').textContent = best? `${best.p.adresse} (${best.score})` : '—';
+      document.getElementById('empty-state').style.display = properties.length ? 'none' : 'block';
+      updateCompareButton();
+      document.querySelectorAll('.break-canvas').forEach(canvas=>{
+        const idx = Number(canvas.id.split('-').pop());
+        const prop = properties[idx];
+        if(prop) drawBreakEvenGraph(canvas, prop, computeLoan(prop.pris, prop.loan), prop.altRent || 0);
+      });
+
+      // Save after render
+      save();
+    }
+
+    // --- URL parser for boligsiden/boliga links ---
+    function parsePropertyUrl(url){
+      try{
+        const u = new URL(url);
+        const host = u.hostname.replace('www.','');
+        if(!/boligsiden\.dk|boliga\.dk/.test(host)) return null;
+        const path = decodeURIComponent(u.pathname);
+        const postMatch = path.match(/\b(\d{4})\b/);
+        const postnr = postMatch? postMatch[1]:'';
+        const segs = path.split('/').filter(Boolean);
+        let last = segs[segs.length-1]||'';
+        if(/^[0-9]+$/.test(last) && segs.length>1) last = segs[segs.length-2];
+        let text = last.replace(/\.(html|php)$/, '').replace(/[-_]/g,' ').replace(/\b\d{4}\b/,'').replace(/\b(salg|bolig|til-salg)\b/gi,'').trim();
+        let adresse = text; let by = '';
+        if(postnr){
+          const after = path.split(postnr)[1]||'';
+          const cityMatch = after.match(/[-/ ]([a-zæøåA-ZÆØÅ][a-zæøå]+(?:[ -][a-zæøåA-ZÆØÅ][a-zæøå]+)*)/);
+          if(cityMatch) by = cityMatch[1].replace(/[-]/g,' ').trim();
+        }
+        if(!by){ const parts = adresse.split(' '); if(parts.length>1){ by = parts.slice(-1)[0]; adresse = parts.slice(0,-1).join(' '); } }
+        const cap = s => s.split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
+        return {adresse: adresse?cap(adresse):'', postnr: postnr||'', by: by?cap(by):'', host};
+      }catch(e){return null}
+    }
+
+    document.getElementById('parse-url').addEventListener('click', ()=>{
+      const url = document.getElementById('f-url').value.trim();
+      if(!url){ alert('Indsæt et boligsiden/boliga link først.'); return; }
+      const parsed = parsePropertyUrl(url);
+      if(!parsed){ alert('Kun links fra boligsiden.dk og boliga.dk understøttes.'); return; }
+      if(parsed.adresse) document.getElementById('f-adresse').value = parsed.adresse;
+      if(parsed.postnr) document.getElementById('f-postnr').value = parsed.postnr;
+      if(parsed.by) document.getElementById('f-by').value = parsed.by;
+      const openBtn = document.getElementById('open-link');
+      openBtn.style.display = 'inline-block';
+      openBtn.onclick = ()=> window.open(url, '_blank');
+      openBtn.textContent = parsed.host && parsed.host.includes('boligsiden')? 'Åbn på Boligsiden' : 'Åbn annonce';
+    });
+
+    document.getElementById('open-link').addEventListener('click', ()=>{
+      const url = document.getElementById('f-url').value.trim(); if(url) window.open(url,'_blank');
+    });
+
+    // --- Form handling ---
+    document.getElementById('prop-form').addEventListener('submit', e=>{
+      e.preventDefault();
+      const prop = {
+        adresse: document.getElementById('f-adresse').value || '—',
+        postnr: document.getElementById('f-postnr').value || '',
+        by: document.getElementById('f-by').value || '',
+        pris: Number(document.getElementById('f-pris').value) || 0,
+        areal: Number(document.getElementById('f-areal').value) || 0,
+        dage: Number(document.getElementById('f-dage').value) || 0,
+        nego: Number(document.getElementById('f-nego').value) || 0,
+        ejerudgift: Number(document.getElementById('f-ejerudgift').value) || 0,
+        leje: Number(document.getElementById('f-leje').value) || 0,
+        byggeaar: Number(document.getElementById('f-byggeaar').value) || 1990,
+        energi: document.getElementById('f-energi').value || 'C',
+        type: document.getElementById('f-type').value || 'villa',
+        marketCond: Number(document.getElementById('market-cond').value),
+        status: 'Ikke vurderet',
+        note: '',
+        compare: false,
+        loan: {udbetaling:5, rente:4, loebetid:30},
+        checklist: defaultChecklist(),
+        checklistOpen: false
+      };
+      properties.push(prop);
+      renderTable();
+      e.target.reset();
+      document.getElementById('f-byggeaar').value = 1990;
+    });
+
+    document.getElementById('clear-all').addEventListener('click', ()=>{
+      if(confirm('Slet alle gemte boliger?')){properties=[];save();renderTable();}
+    });
+
+    const saveNoteDebounced = debounce((idx, value)=>{
+      properties[idx].note = value;
+      save();
+      const indicator = document.querySelector(`[data-note-saved='${idx}']`);
+      if(indicator){ indicator.style.display='inline-flex'; }
+    }, 500);
+    const saveChecklistNoteDebounced = debounce((idx, id, value)=>{
+      properties[idx].checklist[id].note = value;
+      save();
+    }, 500);
+
+    tbody.addEventListener('click', e=>{
+      const btn = e.target.closest('button');
+      if(btn){
+        const idx = btn.dataset.idx;
+        if(idx == null) return;
+        const i = Number(idx);
+        const action = btn.dataset.action || btn.textContent;
+        if(action === 'delete'){
+          if(confirm('Slet denne bolig?')){properties.splice(i,1);renderTable();}
+          return;
+        }
+        if(action.includes('Redigér') || btn.textContent.includes('Redigér')){
+          const p = properties[i];
+          document.getElementById('f-adresse').value = p.adresse;
+          document.getElementById('f-postnr').value = p.postnr;
+          document.getElementById('f-by').value = p.by;
+          document.getElementById('f-pris').value = p.pris;
+          document.getElementById('f-areal').value = p.areal;
+          document.getElementById('f-dage').value = p.dage;
+          document.getElementById('f-nego').value = p.nego;
+          document.getElementById('f-ejerudgift').value = p.ejerudgift;
+          document.getElementById('f-leje').value = p.leje;
+          document.getElementById('f-byggeaar').value = p.byggeaar;
+          document.getElementById('f-energi').value = p.energi;
+          document.getElementById('f-type').value = p.type;
+          document.getElementById('market-cond').value = p.marketCond || 0.02;
+          properties.splice(i,1);
+          renderTable();
+          window.scrollTo({top:0,behavior:'smooth'});
+          return;
+        }
+        if(action === 'strategy'){
+          const propRow = btn.closest('tr');
+          let next = propRow.nextElementSibling;
+          if(next && next.classList.contains('comp-row')) next = next.nextElementSibling;
+          if(next && next.classList.contains('strategy-row')){
+            next.style.display = next.style.display === 'none' ? '' : 'none';
+            if(next.style.display === ''){
+              const box = next.querySelector('.strategy-box');
+              if(box && !box.dataset.filled){
+                const p = properties[i]; const calc = computeFor(p,p.marketCond||0.02);
+                const strat = computeNegotiationStrategy(p, calc);
+                box.innerHTML = `<div><strong>FORHANDLINGSSTYRKE-METER</strong> — <span style='font-weight:600'>${strat.strength}</span></div>
+                  <div class="meter"><div class="meter-bar" style="width:${strat.strength}%;background:${strat.color}"></div></div>
+                  <div style="margin-top:8px"><strong>KONKRETE ÅBNINGSSÆTNINGER</strong><div class="strategy-list">${strat.sentences.map(s=>`<li>${s}</li>`).join('')}</div></div>
+                  <div style="margin-top:8px"><strong>TAKTISKE RÅD</strong><ul class="strategy-list">${strat.tactical.map(t=>`<li>${t}</li>`).join('')}</ul></div>
+                  <div style="margin-top:8px"><strong>SCRIPT TIL FØRSTE KONTAKT</strong><div style="background:#fff;padding:8px;border-radius:6px;margin-top:6px;color:#111">${strat.script.replace(/\n/g,'<br>')}</div></div>`;
+                box.dataset.filled = '1';
+              }
+            }
+          }
+          return;
+        }
+        if(action === 'checklist'){
+          properties[i].checklistOpen = !properties[i].checklistOpen;
+          save(); renderTable();
+          return;
+        }
+        if(action === 'toggleBid'){
+          properties[i].bidOpen = !properties[i].bidOpen;
+          save(); renderTable();
+          return;
+        }
+        if(action === 'addBid'){
+          const amountEl = document.querySelector(`.bid-amount[data-idx="${i}"]`);
+          const dateEl = document.querySelector(`.bid-date[data-idx="${i}"]`);
+          const responseEl = document.querySelector(`.bid-response[data-idx="${i}"]`);
+          const counterEl = document.querySelector(`.bid-counter[data-idx="${i}"]`);
+          const noteEl = document.querySelector(`.bid-note[data-idx="${i}"]`);
+          const bid = {
+            amount: Number(amountEl?.value)||0,
+            date: dateEl?.value || new Date().toISOString().split('T')[0],
+            response: responseEl?.value || 'Afventer',
+            counter: Number(counterEl?.value)||0,
+            note: noteEl?.value || ''
+          };
+          if(!bid.amount){ alert('Indtast et budbeløb før du gemmer.'); return; }
+          properties[i].bids = properties[i].bids || [];
+          properties[i].bids.push(bid);
+          save(); renderTable();
+          return;
+        }
+      }
+      const checkbox = e.target.closest('.compare-toggle');
+      if(checkbox){
+        const idx = Number(checkbox.dataset.idx);
+        properties[idx].compare = checkbox.checked;
+        save(); updateCompareButton(); buildComparePanel();
+        return;
+      }
+    });
+
+    tbody.addEventListener('change', e=>{
+      if(e.target.matches('.status-select')){
+        const idx = Number(e.target.dataset.idx);
+        properties[idx].status = e.target.value;
+        save(); renderTable();
+        return;
+      }
+      if(e.target.matches('.checklist-checkbox')){
+        const idx = Number(e.target.dataset.idx);
+        const id = e.target.dataset.id;
+        properties[idx].checklist[id].checked = e.target.checked;
+        save();
+        return;
+      }
+    });
+
+    tbody.addEventListener('input', e=>{
+      if(e.target.matches('.note-area')){
+        const idx = Number(e.target.dataset.idx);
+        saveNoteDebounced(idx, e.target.value);
+        return;
+      }
+      if(e.target.matches('.loan-input')){
+        const idx = Number(e.target.dataset.idx);
+        const field = e.target.dataset.field;
+        properties[idx].loan[field] = Number(e.target.value);
+        save(); renderTable();
+        return;
+      }
+      if(e.target.matches('.break-input')){
+        const idx = Number(e.target.dataset.idx);
+        properties[idx].altRent = Number(e.target.value);
+        save(); renderTable();
+        return;
+      }
+      if(e.target.matches('.checklist-note')){
+        const idx = Number(e.target.dataset.idx);
+        const id = e.target.dataset.id;
+        saveChecklistNoteDebounced(idx, id, e.target.value);
+        return;
+      }
+    });
+
+    document.getElementById('export-pdf').addEventListener('click', ()=>{ buildPrintArea(); });
+    document.getElementById('share-list').addEventListener('click', ()=>{ copyShareUrl(); });
+    document.getElementById('export-json').addEventListener('click', ()=>{ exportJson(); });
+    document.getElementById('import-json').addEventListener('click', ()=>{ document.getElementById('import-file').click(); });
+    document.getElementById('import-file').addEventListener('change', importJsonFile);
+    document.getElementById('compare-now').addEventListener('click', ()=>{ buildComparePanel(); });
+
+    // Sorting
+    document.querySelectorAll('#prop-table th[data-key]').forEach(th=>{
+      th.addEventListener('click', ()=>{
+        const key = th.dataset.key;
+        if(sortState.key===key) sortState.dir *= -1; else {sortState.key=key; sortState.dir=-1}
+        renderTable();
+      });
+    });
+
+    // Render postcode list
+    function renderPostcodes(){
+      const el = document.getElementById('postcode-list');
+      el.textContent = Object.keys(localAverages).map(k=>`${k}: ${fmt(localAverages[k])} kr./m²`).join('\n');
+    }
+
+    // --- Price history chart (simple canvas) ---
+    function drawChart(){
+      const canvas = document.getElementById('priceChart');
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      const years = Array.from({length:11},(_,i)=>2015+i);
+      // synthetic data (landsplan) 2015-2025
+      const flats = [18000,18500,19000,19500,20500,21500,22000,23000,24000,26000,27500];
+      const villas = [15000,15200,15500,15800,16500,17200,17800,18300,19000,20500,22000];
+      const max = Math.max(...flats,...villas);
+      const min = Math.min(...flats,...villas);
+      const pad = 20;
+      const w = canvas.width - pad*2; const h = canvas.height - pad*2;
+
+      // axes
+      ctx.strokeStyle = '#e6edf3'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(pad, pad+h); ctx.lineTo(pad+w, pad+h); ctx.stroke();
+
+      function plot(data, color){
+        ctx.beginPath();
+        data.forEach((v,i)=>{
+          const x = pad + (i/(data.length-1))*w;
+          const y = pad + (1 - (v-min)/(max-min))*h;
+          if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+        });
+        ctx.strokeStyle = color; ctx.lineWidth=2; ctx.stroke();
+      }
+      plot(flats, '#2563eb'); plot(villas, '#06b6d4');
+
+      // year labels
+      ctx.fillStyle = '#6b7280'; ctx.font='11px sans-serif'; years.forEach((y,i)=>{const x=pad+(i/(years.length-1))*w; ctx.fillText(y,x-10,pad+h+16)});
+    }
+
+    // --- Init ---
+    load(); renderPostcodes(); renderTable(); drawChart();
+
+    // Re-draw chart on resize
+    window.addEventListener('resize', ()=>{const c=document.getElementById('priceChart'); c.width = c.clientWidth; drawChart()});
+
+    // Set canvas width to computed size for crisp rendering
+    (function adjustCanvas(){const c=document.getElementById('priceChart'); c.width = c.clientWidth; c.height = 180; drawChart()})();
+  </script>
+</body>
+</html>
